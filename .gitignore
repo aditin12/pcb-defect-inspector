@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Data & model artifacts (large, regenerate via scripts)
+ml/data/
+models/*.pt
+!models/.gitkeep
+rag/vector_store/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Env
+.env
+*.env.local
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Ultralytics run artifacts (large; results/ plots are what we keep, raw run dirs are not)
+results/pcb_yolov8_run/weights/last.pt
+
+ml/src/*.pt
+results/pcb_yolov8_run/weights/

@@ -1,0 +1,184 @@
+/* ==========================================================================
+   PCB Inspector design tokens
+   Concept: the aesthetic of the object being inspected -- solder-mask
+   green board color, copper-gold accent (literally the metal on a PCB),
+   dark near-black backgrounds like a lit inspection bench. Distinct from
+   a generic dashboard template on purpose.
+   ========================================================================== */
+:root {
+  --board-950: #0d1410;
+  --board-900: #141f19;
+  --board-800: #1c2b23;
+  --board-700: #2a3d33;
+  --board-600: #46614f;
+  --board-400: #85a394;
+  --paper: #eaf2ec;
+
+  --copper: #d4914c;
+  --copper-dim: #7a5a30;
+  --mask-green: #3fae6e;
+
+  --sev-high: #e6604f;
+  --sev-medium: #d4914c;
+  --sev-low: #4fae6e;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--board-950);
+  background-image: radial-gradient(ellipse 900px 500px at 50% -10%, rgba(63,174,110,0.08), transparent);
+  color: var(--paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+
+.app-shell { max-width: 1200px; margin: 0 auto; padding: 0 28px 80px; }
+
+.app-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 36px 0 28px;
+  border-bottom: 1px solid var(--board-700);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.brand { display: flex; align-items: baseline; gap: 12px; }
+.brand-mark { width: 10px; height: 10px; border-radius: 50%; background: var(--copper); }
+.app-header h1 { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0; }
+.brand-sub { color: var(--board-400); font-size: 13px; }
+
+.model-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--board-400);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.model-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--board-600); }
+.model-chip.online .dot { background: var(--mask-green); box-shadow: 0 0 8px var(--mask-green); }
+.model-chip.offline .dot { background: var(--sev-high); }
+
+.workbench { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+@media (min-width: 960px) { .workbench { grid-template-columns: 400px 1fr; } }
+
+.panel {
+  background: var(--board-900);
+  border: 1px solid var(--board-700);
+  border-radius: var(--radius-md);
+  padding: 22px;
+}
+
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--board-400);
+  margin: 0 0 14px;
+}
+
+.dropzone {
+  border: 1.5px dashed var(--board-600);
+  border-radius: var(--radius-md);
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dropzone:hover, .dropzone.dragging { border-color: var(--copper); background: rgba(212,145,76,0.05); }
+.dropzone svg { color: var(--board-400); margin-bottom: 12px; }
+.dropzone .dz-title { font-size: 14px; margin: 0 0 4px; }
+.dropzone .dz-sub { font-size: 12px; color: var(--board-400); margin: 0; }
+.dropzone input { display: none; }
+
+.preview-wrap { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--board-700); position: relative; }
+.preview-wrap img { width: 100%; display: block; }
+
+.scan-overlay-wrap { position: absolute; inset: 0; overflow: hidden; }
+.scan-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(212,145,76,0.14), transparent);
+  height: 40%;
+  animation: scan 1.6s ease-in-out infinite;
+}
+@keyframes scan { 0% { top: -40%; } 100% { top: 100%; } }
+
+.preview-meta { display: flex; justify-content: space-between; margin-top: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--board-400); }
+
+.btn { border: none; border-radius: var(--radius-sm); padding: 11px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--copper); color: var(--board-950); width: 100%; margin-top: 16px; }
+.btn-primary:hover { background: #e0a15e; }
+.btn-primary:disabled { background: var(--board-700); color: var(--board-400); cursor: not-allowed; }
+.btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--board-600); }
+.btn-ghost:hover { border-color: var(--board-400); }
+
+.results-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 380px; color: var(--board-400); text-align: center; gap: 8px; }
+.results-empty svg { color: var(--board-600); }
+.results-empty p { margin: 0; font-size: 13px; max-width: 300px; }
+
+.verdict-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; border-radius: var(--radius-md); margin-bottom: 20px;
+  border: 1px solid var(--board-700);
+}
+.verdict-banner.high { background: rgba(230,96,79,0.1); border-color: rgba(230,96,79,0.3); }
+.verdict-banner.medium { background: rgba(212,145,76,0.1); border-color: rgba(212,145,76,0.3); }
+.verdict-banner.low, .verdict-banner.pass { background: rgba(79,174,110,0.1); border-color: rgba(79,174,110,0.3); }
+
+.verdict-banner .verdict-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; margin: 0; }
+.verdict-banner .verdict-sub { font-size: 12px; color: var(--board-400); margin-top: 2px; }
+.verdict-counts { display: flex; gap: 14px; font-family: var(--font-mono); font-size: 12px; }
+.verdict-counts span b { color: var(--paper); }
+
+.defect-list { display: flex; flex-direction: column; gap: 10px; }
+
+.defect-card { border: 1px solid var(--board-700); border-radius: var(--radius-md); overflow: hidden; background: var(--board-800); }
+.defect-card-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; cursor: pointer; gap: 12px; }
+.defect-card-head:hover { background: var(--board-700); }
+
+.defect-name-row { display: flex; align-items: center; gap: 10px; }
+.sev-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.sev-dot.high { background: var(--sev-high); }
+.sev-dot.medium { background: var(--sev-medium); }
+.sev-dot.low { background: var(--sev-low); }
+
+.defect-name { text-transform: capitalize; font-size: 14px; font-weight: 500; }
+.defect-meta { font-family: var(--font-mono); font-size: 11px; color: var(--board-400); display: flex; gap: 12px; }
+
+.defect-card-body { padding: 0 16px 16px; border-top: 1px solid var(--board-700); font-size: 13px; line-height: 1.6; color: var(--board-400); }
+.defect-card-body .explanation-text { color: var(--paper); margin: 12px 0; }
+.defect-card-body .sources { font-family: var(--font-mono); font-size: 10.5px; color: var(--board-600); }
+.defect-card-body .backend-tag {
+  display: inline-block; margin-top: 10px; font-family: var(--font-mono); font-size: 10px;
+  color: var(--board-400); border: 1px solid var(--board-700); border-radius: 3px; padding: 2px 6px;
+}
+
+.ask-panel { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--board-700); }
+.ask-form { display: flex; gap: 8px; margin-top: 10px; }
+.ask-form input {
+  flex: 1; background: var(--board-800); border: 1px solid var(--board-700); border-radius: var(--radius-sm);
+  padding: 10px 12px; color: var(--paper); font-size: 13px;
+}
+.ask-form input:focus { outline: none; border-color: var(--copper); }
+.ask-form button { background: var(--board-700); color: var(--paper); border: none; border-radius: var(--radius-sm); padding: 0 16px; cursor: pointer; }
+.ask-answer { margin-top: 14px; padding: 14px; background: var(--board-800); border-radius: var(--radius-md); font-size: 13px; line-height: 1.6; border-left: 2px solid var(--copper); }
+
+.error-banner { background: rgba(230,96,79,0.1); border: 1px solid rgba(230,96,79,0.3); color: #f2a494; padding: 12px 14px; border-radius: var(--radius-md); font-size: 13px; margin-top: 16px; }
+.footer-note { margin-top: 48px; text-align: center; color: var(--board-600); font-size: 12px; }
+.spin-note { font-family: var(--font-mono); font-size: 11px; color: var(--board-400); margin-top: 8px; text-align: center; }
